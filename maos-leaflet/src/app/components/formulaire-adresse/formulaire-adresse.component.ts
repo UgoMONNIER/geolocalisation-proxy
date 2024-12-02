@@ -18,7 +18,7 @@ export class FormulaireAdresseComponent {
 
   @Output() coordinatesUpdated = new EventEmitter<[number, number, number, number]>();
 
-  @Output() routeDataUpdated = new EventEmitter<any>();
+ @Output() routeDataUpdated = new EventEmitter<any>();
 
 
   constructor(

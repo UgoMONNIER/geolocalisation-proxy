@@ -1,28 +1,28 @@
 const express = require('express');
 const axios = require('axios');
+const cors = require('cors'); // Ajoute le module CORS
 
 const app = express();
 const port = 3000;
 const apiKey = '5b3ce3597851110001cf62487a0bc7ee018f4ac2b0c712601134eb2a';
 
-// Middleware pour analyser les requêtes JSON
-app.use(express.json());
+// Middleware pour CORS
+app.use(cors()); // Active les règles par défaut pour autoriser toutes les origines
+app.use(express.json()); // Middleware pour analyser les requêtes JSON
 
 app.post('/directions', async (req, res) => {
   try {
     const { startLatitude, startLongitude, endLatitude, endLongitude } = req.body;
 
-    // Vérifie si toutes les coordonnées sont présentes
     if (!startLatitude || !startLongitude || !endLatitude || !endLongitude) {
       return res.status(400).json({ error: 'Les coordonnées sont manquantes.' });
     }
 
-    // Appel à l'API OpenRouteService pour obtenir l'itinéraire
     const response = await axios.post(
       'https://api.openrouteservice.org/v2/directions/driving-car',
       {
         coordinates: [
-          [startLongitude, startLatitude],  // Le format attendu est [longitude, latitude]
+          [startLongitude, startLatitude],
           [endLongitude, endLatitude]
         ]
       },
@@ -34,10 +34,8 @@ app.post('/directions', async (req, res) => {
       }
     );
 
-    // Renvoie la réponse de l'API OpenRouteService
     res.json(response.data);
   } catch (error) {
-    // Gestion des erreurs avec plus de détails
     console.error('Erreur lors de l\'appel à OpenRouteService:', error.response ? error.response.data : error.message);
     res.status(500).json({ error: 'Une erreur est survenue lors de la récupération de l\'itinéraire.' });
   }
@@ -64,8 +62,6 @@ app.post('/geocode', async (req, res) => {
     res.status(500).json({ error: 'An error occurred while retrieving geocoding data.' });
   }
 });
-
-
 
 app.listen(port, () => {
   console.log(`Serveur backend démarré sur http://localhost:${port}`);
