@@ -1,14 +1,13 @@
 const express = require('express');
 const axios = require('axios');
-const cors = require('cors'); // Ajoute le module CORS
+const cors = require('cors'); 
 
 const app = express();
 const port = 3000;
 const apiKey = '5b3ce3597851110001cf62487a0bc7ee018f4ac2b0c712601134eb2a';
 
-// Middleware pour CORS
-app.use(cors()); // Active les règles par défaut pour autoriser toutes les origines
-app.use(express.json()); // Middleware pour analyser les requêtes JSON
+app.use(cors()); 
+app.use(express.json());
 
 app.post('/directions', async (req, res) => {
   try {
@@ -17,6 +16,7 @@ app.post('/directions', async (req, res) => {
     if (!startLatitude || !startLongitude || !endLatitude || !endLongitude) {
       return res.status(400).json({ error: 'Les coordonnées sont manquantes.' });
     }
+console.log(req.body);
 
     const response = await axios.post(
       'https://api.openrouteservice.org/v2/directions/driving-car',
@@ -24,11 +24,13 @@ app.post('/directions', async (req, res) => {
         coordinates: [
           [startLongitude, startLatitude],
           [endLongitude, endLatitude]
-        ]
+        ],
+    radiuses: [1000, 1000] // Rayon de recherche étendu à 1000 mètres
+
       },
       {
         headers: {
-          'Authorization': `Bearer ${apiKey}`,
+          'Authorization': apiKey,
           'Content-Type': 'application/json'
         }
       }

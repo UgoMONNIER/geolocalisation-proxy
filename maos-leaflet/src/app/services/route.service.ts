@@ -1,3 +1,4 @@
+import polyline from '@mapbox/polyline';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -20,4 +21,18 @@ export class RouteService {
     };
     return this.http.post<any>(this.apiUrl, body);  
   }
+
+  /**
+   * Fonction pour décoder une géométrie Polyline et afficher l'itinéraire sur une carte Leaflet
+   * @param {string} encodedGeometry - La géométrie encodée au format Polyline
+   */
+  decodeGeometry(encodedGeometry : string) {
+    // Décoder la géométrie en coordonnées (latitude, longitude)
+    return polyline.decode(encodedGeometry);
+  
+  }
+  
 }
+
+
+

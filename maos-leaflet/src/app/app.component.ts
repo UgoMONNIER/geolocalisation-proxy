@@ -35,17 +35,13 @@ export class AppComponent {
   onCoordinatesUpdated(formData: [number, number, number, number]) {
     const [priseEnChargeLat, priseEnChargeLng, destinationLat, destinationLng] = formData;
 
-    console.log('Updated Coordinates:', formData);
 
-    // Clear existing markers
     if (this.map) {
       this.map.eachLayer((layer) => {
         if (layer instanceof L.Marker) {
         }
       });
-console.log([priseEnChargeLat, priseEnChargeLng]);
 
-      // Add new markers
       L.marker([priseEnChargeLng, priseEnChargeLat])
         .addTo(this.map)
         .bindPopup('Point de départ')
@@ -54,9 +50,15 @@ console.log([priseEnChargeLat, priseEnChargeLng]);
       L.marker([destinationLng, destinationLat])
         .addTo(this.map)
         .bindPopup('Point d\'arrivée')
+
+      
     }
+
   }
 
+  onRouteDataUpdated(coordinates : any){
+    const route = L.polyline(coordinates, { color: 'blue', weight: 6 }).addTo(this.map);
+    this.map.fitBounds(route.getBounds());
 
-  
+  }
 }
