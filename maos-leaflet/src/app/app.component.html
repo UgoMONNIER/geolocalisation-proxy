@@ -1,0 +1,21 @@
+<div class="app-container">
+  <!-- Title -->
+  <header>
+    <h1>Address to Map Visualizer</h1>
+  </header>
+
+  <!-- Address Form Component -->
+  <section class="form-section">
+    <app-formulaire-adresse (coordinatesUpdated)="onCoordinatesUpdated($event)"></app-formulaire-adresse>
+  </section>
+
+  <!-- Map Section -->
+  <section class="map-section">
+    <div
+      style="height: 500px; width: 100%; border: 1px solid #ccc;"
+      leaflet
+      [leafletOptions]="options"
+      (leafletMapReady)="onMapReady($event)"
+    ></div>
+  </section>
+</div>

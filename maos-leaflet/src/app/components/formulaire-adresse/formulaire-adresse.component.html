@@ -1,0 +1,14 @@
+<form [formGroup]="formulaire" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="lieuPriseEnCharge">Lieu de Prise en Charge:</label>
+      <input id="lieuPriseEnCharge" formControlName="lieuPriseEnCharge" required />
+    </div>
+  
+    <div>
+      <label for="lieuDestination">Lieu de Destination:</label>
+      <input id="lieuDestination" formControlName="lieuDestination" required />
+    </div>
+  
+    <button type="submit" [disabled]="formulaire.invalid">Submit</button>
+  </form>
+  
